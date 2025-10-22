@@ -69,7 +69,7 @@ function analyzeSalesData(data, options) {
     profit: 0, 
     sales_count: 0,
     products_sold: {}
-   }));
+  }));
    
    
    // Здесь посчитаем промежуточные данные и отсортируем продавцов
@@ -122,7 +122,6 @@ sellerStats.sort((a, b) => b.profit - a.profit);
 // Определяем топовые товары
   const top_products = Object.entries(seller.products_sold)
      .sort(([,a], [,b]) => b - a)
-     .slice(0, 3)
      .map(([sku, quantity]) => ({ sku, quantity }));
 
      return {
@@ -131,10 +130,8 @@ sellerStats.sort((a, b) => b.profit - a.profit);
         revenue: Math.round(seller.revenue * 100) / 100,
         profit: Math.round(seller.profit * 100) / 100,
         sales_count: seller.sales_count,
-        products_sold: seller.prodacts_sold,
         top_products: top_products,
         bonus: {
-            percent: Math.round(bonus_percent * 100) / 100,
             amount: Math.round(bonus_amount * 100) / 100
         }
      };
