@@ -25,13 +25,13 @@ function calculateSimpleRevenue(purchase, _product) {
  * @returns {number}
  */
 function calculateBonusByProfit(index, total, seller) {
-  const { profit } = seller; 
-  
-  // @TODO: Расчет бонуса от позиции в рейтинге
-  if (index === 0) return 15;
-  if (index === 1 || index === 2) return 10;
-  if (index < total - 1) return 5;
-  return 0;
+    const { profit } = seller;
+    
+    // Расчет бонуса от позиции в рейтинге
+    if (index === 0) return 15; // Первое место - 15%
+    if (index === 1 || index === 2) return 10; // Второе и третье место - 10%
+    if (index < total - 1) return 5; // Все кроме последнего - 5%
+    return 0; // Последнее место - 0%
 }
 
 /**
@@ -79,24 +79,25 @@ function analyzeSalesData(data, options) {
   const prodactIndex = Object.fromEntries(
     data.products.map(product => [product.sku, product])
   );
-  // Вызовем функцию расчёта бонуса для каждого продавца в отсортированном массиве
-  data.purchase_records.forEarch(record => {
-    const seller = sellerIndex[record.seller_id];
-    if (!seller) return;
+  // Расчет выручки и прибыли для каждого продавца
+    data.purchase_records.forEach(record => {
+        const seller = sellerIndex[record.seller_id];
+        if (!seller) return;
 
-    seller.sales_count += 1;
-    record.items.forEach(item => {
-        const product = prodactIndex[item.sku];
-        if(!product) return;
+        seller.sales_count += 1;
 
-  // Расчет выручки
-  const revenue = calculateRevenue(item, product);
-  seller.revenue += revenue;
+        record.items.forEach(item => {
+            const product = productIndex[item.sku];
+            if (!product) return;
 
-  //Расчет прибыли
-   const cost = product.purchase_price * item.quantity;
-   const itemProfit = revenue - cost;
-   seller.profit += itemProfit;
+        // Расчет выручки
+            const revenue = calculateRevenue(item, product);
+            seller.revenue += revenue;
+
+        // Расчет прибыли
+            const cost = product.purchase_price * item.quantity;
+            const itemProfit = revenue - cost;
+            seller.profit += itemProfit;
 
    // Учет проданных товаров
    if (!seller.prodacts_sold[item, sku]) {
@@ -135,6 +136,6 @@ sellerStats.sort((a, b) => b.profit - a.profit);
         }
      };
   });
-  
+
   return report;
 }
