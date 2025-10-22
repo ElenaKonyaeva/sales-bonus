@@ -122,6 +122,7 @@ sellerStats.sort((a, b) => b.profit - a.profit);
 // Определяем топовые товары
   const top_products = Object.entries(seller.products_sold)
      .sort(([,a], [,b]) => b - a)
+     .slice(0, 3)
      .map(([sku, quantity]) => ({ sku, quantity }));
 
      return {
@@ -131,9 +132,8 @@ sellerStats.sort((a, b) => b.profit - a.profit);
         profit: Math.round(seller.profit * 100) / 100,
         sales_count: seller.sales_count,
         top_products: top_products,
-        bonus: {
-            amount: Math.round(bonus_amount * 100) / 100
-        }
+        bonus: Math.round(bonus_amount * 100) / 100
+        
      };
   });
 
