@@ -63,8 +63,8 @@ function analyzeSalesData(data, options) {
 
   // Сюда передадим функции для расчётов
    const sellerStats = data.sellers.map(seller => ({
-    seller_id: seller_id,
-    name: `${seller.first_name} $(seller.last_name)`,
+    seller_id: seller.id,
+    name: `${seller.first_name} ${seller.last_name}`,
     revenue: 0,
     profit: 0, 
     sales_count: 0,
@@ -77,7 +77,7 @@ function analyzeSalesData(data, options) {
     sellerStats.map(stat => [stat.seller_id, stat])
   );
   
-  const prodactIndex = Object.fromEntries(
+  const productIndex = Object.fromEntries(
     data.products.map(product => [product.sku, product])
   );
   // Расчет выручки и прибыли для каждого продавца
@@ -101,10 +101,10 @@ function analyzeSalesData(data, options) {
             seller.profit += itemProfit;
 
    // Учет проданных товаров
-   if (!seller.prodacts_sold[item, sku]) {
-    seller.prodacts_sold[item, sku] = 0;
+   if (!seller.products_sold[item.sku]) {
+    seller.products_sold[item.sku] = 0;
    }
-   seller.prodacts_sold[item, sku] += item.quantity;
+   seller.products_sold[item.sku] += item.quantity;
   });
 });
 // Сортировка продавцов по прибыли
