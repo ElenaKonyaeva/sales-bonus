@@ -122,17 +122,17 @@ sellerStats.sort((a, b) => b.profit - a.profit);
 // Определяем топовые товары
   const top_products = Object.entries(seller.products_sold)
      .sort(([,a], [,b]) => b - a)
-     .slice(0, 3)
+     .slice(0, 10)
      .map(([sku, quantity]) => ({ sku, quantity }));
 
      return {
         seller_id: seller.seller_id,
         name: seller.name,
-        revenue: Math.round(seller.revenue * 100) / 100,
-        profit: Math.round(seller.profit * 100) / 100,
+        revenue: Number(seller.revenue.toFixed(2)),
+        profit: Number(seller.profit.toFixed(2)),
         sales_count: seller.sales_count,
         top_products: top_products,
-        bonus: Math.round(bonus_amount * 100) / 100
+        bonus: Number(bonus_amount.toFixed(2))
         
      };
   });
