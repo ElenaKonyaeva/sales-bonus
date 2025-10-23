@@ -10,9 +10,10 @@ function calculateSimpleRevenue(purchase, _product) {
   const { discount, sale_price, quantity } = purchase; 
   
   // @TODO: Расчет выручки от операции
-  const decimalDiscount = discount / 100;
+  
   const totalBeforeDiscount = sale_price * quantity;
-  const revenue = totalBeforeDiscount * (1 - decimalDiscount);
+  const discountAmount = totalBeforeDiscount * (discount / 100);
+  const revenue = totalBeforeDiscount - decimalDiscount;
 
   return revenue;
 }
